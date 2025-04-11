@@ -8,16 +8,45 @@ def get_data_contact(name, phone, email):
     print("Contact added successfully!")
 
 
-def show_contacts(contacts):
+def check_agenda_empty(agenda):
     if not agenda:
+        print("No contacts available!")
+        return True
+    return False
+
+
+def show_contacts(contacts):
+    if not contacts:
         print("No contacts available!")
     else:
         for i, contact in enumerate(contacts, start=1):
             contact_name = contact["name"]
             phone = contact["phone"]
             email = contact["email"]
-            favorite = contact["favorite"]
-            print(f"{i} - Name: {contact_name}, Phone: {phone}, Email: {email}, Favorite: {favorite}")
+            favorite = "Yes" if contact["favorite"] else "No"
+            print(
+                f"{i} - Name: {contact_name}, Phone: {phone}, Email: {email}, Favorite: {favorite}"
+            )
+
+
+def edit_contact(contacts, contact_index):
+    contact = contacts[contact_index]
+    new_name = input("Do you want to change the name? (y/n)")
+    if new_name.lower() == "y":
+        contact["name"] = input("Enter the new name: ")
+    else:
+        pass
+    new_phone = input("Do you want to change the phone? (y/n)")
+    if new_phone.lower() == "y":
+        contact["phone"] = input("Enter the new phone: ")
+    else:
+        pass
+    new_email = input("Do you want to change the email? (y/n)")
+    if new_email.lower() == "y":
+        contact["email"] = input("Enter the new email: ")
+    else:
+        pass
+    print("Contact edited successfully!")
 
 
 while True:
@@ -38,6 +67,12 @@ while True:
         email = input("Enter the email: ")
         get_data_contact(name, phone, email)
     elif option == "2":
+        if check_agenda_empty(agenda):
+            continue
         show_contacts(agenda)
+    elif option == "3":
+        show_contacts(agenda)
+        contact_index = int(input("Enter the contact number: ")) - 1
+        edit_contact(agenda, contact_index)
     elif option == "7":
         break
