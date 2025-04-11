@@ -1,24 +1,27 @@
 agenda = []
 
 
-def get_data_contact():
-    name = input("Enter the name: ")
-    phone = input("Enter the phone: ")
-    email = input("Enter the email: ")
+def get_data_contact(name, phone, email):
     favorite = False
-    return {"name": name, "phone": phone, "email": email, "favorite": favorite}
+    contact = {"name": name, "phone": phone, "email": email, "favorite": favorite}
+    agenda.append(contact)
+    print("Contact added successfully!")
 
 
 def show_contacts(contacts):
     if not agenda:
         print("No contacts available!")
     else:
-        for contact in enumerate(contacts, start=1):
-            print(f"{contact}")
+        for i, contact in enumerate(contacts, start=1):
+            contact_name = contact["name"]
+            phone = contact["phone"]
+            email = contact["email"]
+            favorite = contact["favorite"]
+            print(f"{i} - Name: {contact_name}, Phone: {phone}, Email: {email}, Favorite: {favorite}")
 
 
 while True:
-    print("Contact agenda")
+    print("\nContact agenda")
     print("1 - Add contact")
     print("2 - Show contacts")
     print("3 - Edit contacts")
@@ -30,10 +33,11 @@ while True:
     option = input("Choose an option: ")
 
     if option == "1":
-        contact = get_data_contact()
-        agenda.append(contact)
-        print("Contact added successfully!")
-    if option == "2":
-        print(agenda)
+        name = input("Enter the name: ")
+        phone = input("Enter the phone: ")
+        email = input("Enter the email: ")
+        get_data_contact(name, phone, email)
+    elif option == "2":
+        show_contacts(agenda)
     elif option == "7":
         break
