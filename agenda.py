@@ -15,6 +15,20 @@ def check_agenda_empty(agenda):
     return False
 
 
+def get_contact_index(contacts):
+    while True:
+        try:
+            contact_index = int(input("Enter the contact number: ")) - 1
+            if contact_index < 0 or contact_index >= len(contacts):
+                raise IndexError
+            break
+        except (ValueError, IndexError):
+            print("Invalid contact number. Please try again.")
+            print(f"Valid range options: 1 - {len(contacts)}")
+            continue
+    return contact_index
+
+
 def show_contacts(contacts):
     if not contacts:
         print("No contacts available!")
@@ -49,6 +63,29 @@ def edit_contact(contacts, contact_index):
     print("Contact edited successfully!")
 
 
+def favorite(contacts, contact_index):
+    contact = contacts[contact_index]
+    if contact["favorite"]:
+        contact["favorite"] = False
+    else:
+        contact["favorite"] = True
+    print("Contact marked/unmarked as favorite successfully!")
+    return
+
+
+def show_favorites(contacts):
+    for contact in contacts:
+        if contact["favorite"]:
+            show_contacts([contact])
+    return
+
+
+def delete_contact(contacts, contact_index):
+    print(f"Contact {contacts[contact_index]['name']} deleted successfully!")
+    contacts.pop(contact_index)
+    return
+
+
 while True:
     print("\nContact agenda")
     print("1 - Add contact")
@@ -71,8 +108,26 @@ while True:
             continue
         show_contacts(agenda)
     elif option == "3":
+        if check_agenda_empty(agenda):
+            continue
         show_contacts(agenda)
-        contact_index = int(input("Enter the contact number: ")) - 1
+        contact_index = get_contact_index(agenda)
         edit_contact(agenda, contact_index)
+    elif option == "4":
+        if check_agenda_empty(agenda):
+            continue
+        show_contacts(agenda)
+        contact_index = get_contact_index(agenda)
+        favorite(agenda, contact_index)
+    elif option == "5":
+        if check_agenda_empty(agenda):
+            continue
+        show_favorites(agenda)
+    elif option == "6":
+        if check_agenda_empty(agenda):
+            continue
+        show_contacts(agenda)
+        contact_index = get_contact_index(agenda)
+        delete_contact(agenda, contact_index)
     elif option == "7":
         break
